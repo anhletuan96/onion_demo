@@ -113,10 +113,16 @@ echo -e "${YELLOW}📊 Monitor ngrok at: http://localhost:4040${NC}"
 echo -e "${YELLOW}🔄 Press Ctrl+C to stop all services${NC}\n"
 
 # Test the local endpoint
-echo -e "${BLUE}🧪 Testing local endpoint...${NC}"
+echo -e "${BLUE}🧪 Testing local endpoint with parameters...${NC}"
+echo -e "${YELLOW}Testing get_message with msgId:${NC}"
 curl -X POST http://localhost:3001/oxen/custom-endpoint/lsrpc \
      -H "Content-Type: application/json" \
-     -d '{"method": "get_message"}' | jq '.' 2>/dev/null || echo "Response received (install jq for formatted JSON)"
+     -d '{"method": "get_message", "params": {"msgId": "test123"}}' | jq '.' 2>/dev/null || echo "Response received (install jq for formatted JSON)"
+
+echo -e "\n${YELLOW}Testing send_message with msg:${NC}"
+curl -X POST http://localhost:3001/oxen/custom-endpoint/lsrpc \
+     -H "Content-Type: application/json" \
+     -d '{"method": "send_message", "params": {"msg": "Hello from test!"}}' | jq '.' 2>/dev/null || echo "Response received (install jq for formatted JSON)"
 
 echo -e "\n${YELLOW}🔄 Services are running. Press Ctrl+C to stop...${NC}"
 

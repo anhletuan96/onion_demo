@@ -52,19 +52,23 @@ See [`scripts/README.md`](scripts/README.md) for detailed documentation.
 
 ### POST /oxen/custom-endpoint/lsrpc
 
-Request body:
-
+**Get Message Request:**
 ```json
 {
-    "method": "get_message"
+    "method": "get_message",
+    "params": {
+        "msgId": "123456789"
+    }
 }
 ```
 
-or
-
+**Send Message Request:**
 ```json
 {
-    "method": "send_message"
+    "method": "send_message",
+    "params": {
+        "msg": "Hello, World!"
+    }
 }
 ```
 

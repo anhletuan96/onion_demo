@@ -12,14 +12,23 @@ app.use(express.raw({ type: "*/*", limit: "10mb" }));
 // Interface for request body
 interface LsrpcRequest {
     method: "get_message" | "send_message";
+    params?: {
+        msgId?: string;
+        msg?: string;
+        conversationId?: string;
+        [key: string]: any;
+    };
 }
+
+const db: { [key: string]: any } = {};
 
 // POST /oxen/custom-endpoint/lsrpc endpoint
 app.post(
     "/oxen/custom-endpoint/lsrpc",
     (req: Request<{}, {}, LsrpcRequest>, res: Response) => {
         const body = parseRequestBody(req);
-        const { method } = body;
+        const { method, params } = body;
+        console.log("📬 Parsed request body:", req.headers);
         // Validate method
         if (
             !method ||
@@ -33,32 +42,40 @@ app.post(
         // Handle different methods
         switch (method) {
             case "get_message":
-                return res.json({
-                    success: true,
-                    method: "get_message",
-                    data: {
-                        messageId: "12345",
+                const msgId = params.msgId;
+                let data = db[msgId];
+                if (!msgId || !data) {
+                    data = {
+                        msgId: "12345",
                         content: "Hello, this is a sample message!",
                         timestamp: new Date().toISOString(),
                         sender: "user123",
                         recipient: "user456",
                         encrypted: true,
-                    },
+                    };
+                }
+                return res.json({
+                    success: true,
+                    method: "get_message",
+                    data,
                 });
 
             case "send_message":
+                const msg = {
+                    msgId: new Date().getTime().toString(),
+                    msg: params.msg,
+                    status: "sent",
+                    timestamp: new Date().toISOString(),
+                    recipient: "user789",
+                    deliveryStatus: "pending",
+                    encrypted: true,
+                    confirmationCode: "ABC123XYZ",
+                };
+                db[msg.msgId] = msg;
                 return res.json({
                     success: true,
                     method: "send_message",
-                    data: {
-                        messageId: "67890",
-                        status: "sent",
-                        timestamp: new Date().toISOString(),
-                        recipient: "user789",
-                        deliveryStatus: "pending",
-                        encrypted: true,
-                        confirmationCode: "ABC123XYZ",
-                    },
+                    data: msg,
                 });
 
             default:

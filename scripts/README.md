@@ -44,6 +44,7 @@ Sends encrypted onion requests through the Oxen service node network.
 
 **Features:**
 - ✅ Supports both `get_message` and `send_message` methods
+- ✅ Auto-generates parameters: `msgId` for get_message, `msg` for send_message
 - ✅ Auto-detects ngrok URLs or uses local server
 - ✅ Routes through 3-hop onion circuit
 - ✅ Comprehensive error handling
@@ -84,6 +85,10 @@ npm run send-onion -- -m send_message -u https://your-ngrok-url.app
 - `-u, --url <ngrok_url>`: Specific ngrok URL to use
 - `-l, --local`: Use local server instead of ngrok
 - `-h, --help`: Show help message
+
+**Auto-generated Parameters:**
+- `get_message`: Includes `msgId` (timestamp-based)
+- `send_message`: Includes `msg` (greeting with timestamp)
 
 ## Complete Workflow
 

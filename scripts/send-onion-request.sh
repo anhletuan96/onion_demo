@@ -133,10 +133,27 @@ async function sendOnionRequest() {
         console.log("📝 Method: $METHOD");
 
         try {
-            const payload = {
-                method: "$METHOD",
-                params: {},
-            };
+            let payload;
+            if ("$METHOD" === "get_message") {
+                payload = {
+                    method: "$METHOD",
+                    params: {
+                        msgId: "$(date +%s)001", // Generate a timestamp-based msgId
+                    },
+                };
+            } else if ("$METHOD" === "send_message") {
+                payload = {
+                    method: "$METHOD",
+                    params: {
+                        msg: "Hello from onion request - $(date '+%Y-%m-%d %H:%M:%S')",
+                    },
+                };
+            } else {
+                payload = {
+                    method: "$METHOD",
+                    params: {},
+                };
+            }
 
             console.log("📦 Payload:", JSON.stringify(payload, null, 2));
             console.log("🚀 Sending request through onion network...");

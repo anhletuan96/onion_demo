@@ -247,7 +247,9 @@ export class OnionBuilder {
         // Step 1: Prepare final payload with exact format
         // Format request.body: P>{${payloadJson}}{"headers":{}}{"host":"...","port":...,"protocol":"...","target":"..."}
         const finalRoute = {
-            headers: {}, // Empty object, not empty string
+            headers: {
+                "Content-Type": "application/json",
+            }, // Empty object, not empty string
             // json: false,
             // base64: true
         };
@@ -442,7 +444,10 @@ export class OnionBuilder {
                 `${entryNodeUrl}/onion_req/v2`,
                 onionRequest.encryptedPayload,
                 {
-                    headers: { "Content-Type": "application/octet-stream" },
+                    headers: {
+                        "Content-Type": "application/octet-stream",
+                        "X-Custom-Header": "value",
+                    },
                     responseType: "arraybuffer",
                 }
             );
