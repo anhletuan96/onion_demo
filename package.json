@@ -4,11 +4,13 @@
     "description": "Express TypeScript server with custom endpoint",
     "main": "dist/server.js",
     "scripts": {
-        "start": "node dist/server.js",
         "dev": "ts-node-dev --respawn --transpile-only server.ts",
-        "test": "ts-node-dev --respawn --transpile-only index.ts",
+        "test": "ts-node-dev --respawn --transpile-only test.ts",
         "build": "tsc",
-        "clean": "rimraf dist"
+        "clean": "rimraf dist",
+        "start-ngrok": "./scripts/start-server-ngrok.sh",
+        "onion-get": "./scripts/send-onion-request.sh -m get_message",
+        "onion-send": "./scripts/send-onion-request.sh -m send_message"
     },
     "keywords": [],
     "author": "",

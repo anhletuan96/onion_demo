@@ -1,6 +1,30 @@
 # E2EE Demo Server
 
-Express TypeScript server with custom LSRPC endpoint.
+Express TypeScript server with custom LSRPC endpoint and Onion Request capabilities.
+
+## Quick Start
+
+### 🚀 Start Server + Ngrok Tunnel
+
+```bash
+npm run start-ngrok
+```
+
+### 🧅 Send Onion Requests
+
+```bash
+# Send get_message via onion network
+npm run onion-get
+
+# Send send_message via onion network
+npm run onion-send
+```
+
+### 🎭 Full Demo
+
+```bash
+./scripts/demo.sh
+```
 
 ## Installation
 
@@ -20,11 +44,17 @@ npm run dev
 npm run build
 ```
 
-## Start
+## Scripts
 
-```bash
-npm start
-```
+| Script                | Description                          |
+| --------------------- | ------------------------------------ |
+| `npm run start-ngrok` | Start server and create ngrok tunnel |
+| `npm run onion-get`   | Send get_message via onion network   |
+| `npm run onion-send`  | Send send_message via onion network  |
+| `npm run send-onion`  | Custom onion request with options    |
+| `./scripts/demo.sh`   | Complete demonstration workflow      |
+
+See [`scripts/README.md`](scripts/README.md) for detailed documentation.
 
 ## API Endpoints
 
@@ -50,16 +80,22 @@ or
 
 Health check endpoint.
 
-## Example Usage
+## Regular HTTP Example Usage
 
 ```bash
 # Get message
-curl -X POST http://localhost:3000/oxen/custom-endpoint/lsrpc \
+curl -X POST http://localhost:3001/oxen/custom-endpoint/lsrpc \
   -H "Content-Type: application/json" \
   -d '{"method": "get_message"}'
 
 # Send message
-curl -X POST http://localhost:3000/oxen/custom-endpoint/lsrpc \
+curl -X POST http://localhost:3001/oxen/custom-endpoint/lsrpc \
   -H "Content-Type: application/json" \
   -d '{"method": "send_message"}'
 ```
+
+## Requirements
+
+-   **Node.js** (v16+)
+-   **TypeScript** (included in dev dependencies)
+-   **ngrok** (for public tunneling) - Download from https://ngrok.com/download
