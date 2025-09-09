@@ -5,12 +5,15 @@
     "main": "dist/server.js",
     "scripts": {
         "dev": "ts-node-dev --respawn --transpile-only server.ts",
+        "dev-https": "USE_HTTPS=true ts-node-dev --respawn --transpile-only server.ts",
         "test": "ts-node-dev --respawn --transpile-only test.ts",
         "build": "tsc",
         "clean": "rimraf dist",
+        "start": "node dist/server.js",
+        "start-https": "USE_HTTPS=true node dist/server.js",
         "start-ngrok": "./scripts/start-server-ngrok.sh",
         "onion-get": "./scripts/send-onion-request.sh -m get_message -i",
-        "onion-send": "./scripts/send-onion-request.sh -m send_message"
+        "onion-send": "./scripts/send-onion-request.sh -m send_message -t"
     },
     "keywords": [],
     "author": "",

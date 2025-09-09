@@ -1,4 +1,6 @@
 import express, { Request, Response } from "express";
+import https from "https";
+import fs from "fs";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -28,7 +30,6 @@ app.post(
     (req: Request<{}, {}, LsrpcRequest>, res: Response) => {
         const body = parseRequestBody(req);
         const { method, params } = body;
-        console.log("📬 Parsed request body:", req.headers);
         // Validate method
         if (
             !method ||
@@ -92,13 +93,33 @@ app.get("/health", (req: Request, res: Response) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    console.log(`Health check: http://localhost:${PORT}/health`);
-    console.log(
-        `LSRPC endpoint: http://localhost:${PORT}/oxen/custom-endpoint/lsrpc`
-    );
-});
+const USE_HTTPS = process.env.USE_HTTPS === 'true';
+
+if (USE_HTTPS) {
+    // HTTPS Configuration
+    const privateKey = fs.readFileSync('key.pem', 'utf8');
+    const certificate = fs.readFileSync('cert.pem', 'utf8');
+    
+    const credentials = {
+        key: privateKey,
+        cert: certificate
+    };
+    
+    const httpsServer = https.createServer(credentials, app);
+    
+    httpsServer.listen(PORT, () => {
+        console.log(`🔒 HTTPS Server is running on port ${PORT}`);
+        console.log(`🏥 Health check: https://localhost:${PORT}/health`);
+        console.log(`📡 LSRPC endpoint: https://localhost:${PORT}/oxen/custom-endpoint/lsrpc`);
+    });
+} else {
+    // HTTP Configuration
+    app.listen(PORT, () => {
+        console.log(`🔓 HTTP Server is running on port ${PORT}`);
+        console.log(`🏥 Health check: http://localhost:${PORT}/health`);
+        console.log(`📡 LSRPC endpoint: http://localhost:${PORT}/oxen/custom-endpoint/lsrpc`);
+    });
+}
 
 // Helper function to clean corrupted prefixes from onion request body
 function cleanCorruptedPrefix(bodyString: string): string {
