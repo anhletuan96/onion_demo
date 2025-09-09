@@ -159,7 +159,7 @@ export class OnionBuilder {
 
             // Filter active nodes with required keys
             const activeNodes = serviceNodes.filter(
-                (node) =>
+                (node: ServiceNode) =>
                     node.pubkey_ed25519 &&
                     node.pubkey_x25519 &&
                     node.public_ip &&
@@ -188,7 +188,7 @@ export class OnionBuilder {
                 }
             }
 
-            const path = selectedNodes.map((node) => ({
+            const path = selectedNodes.map((node: ServiceNode) => ({
                 ed25519_pubkey: node.pubkey_ed25519,
                 x25519_pubkey: node.pubkey_x25519,
                 ip: node.public_ip,

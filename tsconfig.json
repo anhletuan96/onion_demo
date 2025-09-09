@@ -5,7 +5,7 @@
     "lib": ["ES2020"],
     "types": ["node"],
     "outDir": "./dist",
-    "rootDir": "server/src",
+    "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -16,6 +16,6 @@
     "sourceMap": true,
     "removeComments": true
   },
-  "include": ["server/src/**/*"],
+  "include": ["*.ts", "onion/**/*"],
   "exclude": ["node_modules", "dist"]
 }

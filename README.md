@@ -20,12 +20,6 @@ npm run onion-get
 npm run onion-send
 ```
 
-### 🎭 Full Demo
-
-```bash
-./scripts/demo.sh
-```
-
 ## Installation
 
 ```bash
@@ -51,8 +45,6 @@ npm run build
 | `npm run start-ngrok` | Start server and create ngrok tunnel |
 | `npm run onion-get`   | Send get_message via onion network   |
 | `npm run onion-send`  | Send send_message via onion network  |
-| `npm run send-onion`  | Custom onion request with options    |
-| `./scripts/demo.sh`   | Complete demonstration workflow      |
 
 See [`scripts/README.md`](scripts/README.md) for detailed documentation.
 
