@@ -9,7 +9,7 @@
         "build": "tsc",
         "clean": "rimraf dist",
         "start-ngrok": "./scripts/start-server-ngrok.sh",
-        "onion-get": "./scripts/send-onion-request.sh -m get_message",
+        "onion-get": "./scripts/send-onion-request.sh -m get_message -i",
         "onion-send": "./scripts/send-onion-request.sh -m send_message"
     },
     "keywords": [],

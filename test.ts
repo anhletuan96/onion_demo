@@ -14,7 +14,7 @@ async function testOnionRequest() {
 
         // Test with a custom server destination (not a service node)
         const customServer: OnionDestination = {
-            host: "d518a8a3e8fa.ngrok-free.app", // Your public ngrok URL
+            host: "4c98b41e8e1a.ngrok-free.app", // Your public ngrok URL
             port: 443, // HTTPS port
             protocol: "https", // Protocol
             target: "/oxen/custom-endpoint/lsrpc", // Target endpoint
@@ -27,13 +27,15 @@ async function testOnionRequest() {
             const payload = {
                 method: "get_message",
                 params: {
-                    msgId: "1757400991572",
+                    msgId: "1757402775049",
                 },
                 // method: "send_message",
                 // params: {
-                //     msg: "Hello",
+                //     msg: "Hello 112",
                 // },
             };
+            // 1757402764879
+            // 1757402775049
 
             const result = await onionBuilder.sendOnionRequest(
                 payload,

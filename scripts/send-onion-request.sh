@@ -16,18 +16,22 @@ NC='\033[0m' # No Color
 METHOD="get_message"
 NGROK_URL=""
 USE_LOCAL=false
+MSG_ID=""
+MESSAGE_TEXT=""
 
 # Function to show usage
 show_usage() {
     echo -e "${BLUE}Usage: $0 [OPTIONS]${NC}"
     echo -e "${YELLOW}Options:${NC}"
     echo -e "  -m, --method <method>    Method to call: 'get_message' or 'send_message' (default: get_message)"
+    echo -e "  -i, --msgid <msgId>      Message ID for get_message (default: auto-generated)"
+    echo -e "  -t, --message <text>     Message text for send_message (default: auto-generated)"
     echo -e "  -u, --url <ngrok_url>    Ngrok URL to use (e.g., https://abc123.ngrok-free.app)"
     echo -e "  -l, --local              Use local server (http://localhost:3001) instead of ngrok"
     echo -e "  -h, --help               Show this help message"
     echo -e "\n${YELLOW}Examples:${NC}"
-    echo -e "  $0 -m get_message -u https://abc123.ngrok-free.app"
-    echo -e "  $0 -m send_message -l"
+    echo -e "  $0 -m get_message -i 12345 -u https://abc123.ngrok-free.app"
+    echo -e "  $0 -m send_message -t 'Hello World' -l"
     echo -e "  $0 --method send_message --url https://abc123.ngrok-free.app"
 }
 
@@ -36,6 +40,14 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         -m|--method)
             METHOD="$2"
+            shift 2
+            ;;
+        -i|--msgid)
+            MSG_ID="$2"
+            shift 2
+            ;;
+        -t|--message)
+            MESSAGE_TEXT="$2"
             shift 2
             ;;
         -u|--url)
@@ -135,17 +147,19 @@ async function sendOnionRequest() {
         try {
             let payload;
             if ("$METHOD" === "get_message") {
+                const msgId = "$MSG_ID" || "$(date +%s)001";
                 payload = {
                     method: "$METHOD",
                     params: {
-                        msgId: "$(date +%s)001", // Generate a timestamp-based msgId
+                        msgId: msgId,
                     },
                 };
             } else if ("$METHOD" === "send_message") {
+                const msg = "$MESSAGE_TEXT" || "Hello from onion request - $(date '+%Y-%m-%d %H:%M:%S')";
                 payload = {
                     method: "$METHOD",
                     params: {
-                        msg: "Hello from onion request - $(date '+%Y-%m-%d %H:%M:%S')",
+                        msg: msg,
                     },
                 };
             } else {
